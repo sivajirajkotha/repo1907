@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.9.1.41621",
+      "templateHash": "224526329278664907"
+    }
+  },
+  "parameters": {
+    "location": {
+      "type": "string"
+    },
+    "sku": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "metadata": {
+        "description": "This is storage account SKU and allowed values are Standard_LRS & Premium_LRS"
+      },
+      "allowedValues": [
+        "Standard_LRS",
+        "Premium_LRS"
+      ]
+    }
+  },
+  "variables": {
+    "sto": "bicep",
+    "kind": "StorageV2",
+    "storageacc": "[format('{0}{1}', variables('sto'), take(uniqueString(resourceGroup().id), 17))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2021-02-01",
+      "name": "[variables('storageacc')]",
+      "location": "[parameters('location')]",
+      "kind": "[variables('kind')]",
+      "sku": {
+        "name": "[parameters('sku')]"
+      }
+    }
+  ]
+}

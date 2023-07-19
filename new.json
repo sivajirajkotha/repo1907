@@ -1,0 +1,44 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2021-02-01",
+            "name": "bicepvnet",
+            "location": "eastus",
+            "tags": {
+                "deparment": "Engineering"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2021-02-01",
+            "name": "[format('{0}/{1}', 'bicepvnet', 'bicepSubnet1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', 'bicepvnet')]"
+            ],
+            "properties": {
+                "addressPrefix": "10.0.1.0/27"
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2021-02-01",
+            "name": "[format('{0}/{1}', 'bicepvnet', 'bicepSubnet2')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', 'bicepvnet')]"
+            ],
+            "properties": {
+                "addressPrefix": "10.0.2.0/27"
+            }
+        }
+    ]
+}
